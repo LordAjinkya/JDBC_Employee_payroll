@@ -7,7 +7,7 @@ public class EmployeePayrollDBService {
     private PreparedStatement employeePayrollDataStatement;
     private static EmployeePayrollDBService employeePayrollDBService;
 
-    private EmployeePayrollDBService(){
+    EmployeePayrollDBService(){
     }
 
     public static EmployeePayrollDBService getInstance(){
@@ -132,5 +132,22 @@ public class EmployeePayrollDBService {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    public List<EmployeePayrollData> getEmployeePayrollForDateRange(LocalDate startDate, LocalDate endDate) {
+        String sql = String.format( "select * from employee_payroll where start between '%s' and '%s';",
+                Date.valueOf(startDate),Date.valueOf(endDate));
+        return this.getEmployeeDataUsingDB(sql);
+    }
+
+    private List<EmployeePayrollData> getEmployeeDataUsingDB(String sql) {
+        List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+        try(Connection connection =this.getConnection()){
+            Statement statement =connection.createStatement();
+            ResultSet resultSet = statement.executeQuery( sql );
+            employeePayrollList = this.getEmployeePayrollData( resultSet );
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return employeePayrollList;
     }
 }
