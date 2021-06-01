@@ -6,6 +6,7 @@ import java.util.List;
 
 
 public class EmployeePayrollServiceTest {
+
     @Test
     public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
         EmployeePayrollService employeePayrollService = new EmployeePayrollService();
